@@ -49,6 +49,9 @@ An [MCP server](https://modelcontextprotocol.io/introduction) implementation tha
   - Example: `https://search.example.com`
 
 #### Optional
+- **`AUTHORIZATION_HEADER`**: Full Authorization header value for SearXNG requests
+  - Example: `Bearer your-token`, `Token abc123`, `ApiKey xyz`
+  - Takes priority over Basic Auth if both are configured
 - **`AUTH_USERNAME`** / **`AUTH_PASSWORD`**: HTTP Basic Auth credentials for password-protected instances
 - **`USER_AGENT`**: Custom User-Agent header (e.g., `MyBot/1.0`)
 - **`HTTP_PROXY`** / **`HTTPS_PROXY`**: Proxy URLs for routing traffic
@@ -84,6 +87,7 @@ An [MCP server](https://modelcontextprotocol.io/introduction) implementation tha
       "args": ["-y", "mcp-searxng"],
       "env": {
         "SEARXNG_URL": "YOUR_SEARXNG_INSTANCE_URL",
+        "AUTHORIZATION_HEADER": "Bearer your-token-here",
         "AUTH_USERNAME": "your_username",
         "AUTH_PASSWORD": "your_password",
         "USER_AGENT": "MyBot/1.0",
@@ -96,7 +100,7 @@ An [MCP server](https://modelcontextprotocol.io/introduction) implementation tha
 }
 ```
 
-**Note:** Mix and match environment variables as needed. All optional variables can be used independently or together.
+**Note:** Mix and match environment variables as needed. All optional variables can be used independently or together. If both `AUTHORIZATION_HEADER` and `AUTH_USERNAME`/`AUTH_PASSWORD` are set, `AUTHORIZATION_HEADER` takes priority.
 
 </details>
 
@@ -129,6 +133,7 @@ npm install -g mcp-searxng
       "command": "mcp-searxng",
       "env": {
         "SEARXNG_URL": "YOUR_SEARXNG_INSTANCE_URL",
+        "AUTHORIZATION_HEADER": "Bearer your-token-here",
         "AUTH_USERNAME": "your_username",
         "AUTH_PASSWORD": "your_password",
         "USER_AGENT": "MyBot/1.0",
@@ -180,6 +185,7 @@ docker pull isokoliuk/mcp-searxng:latest
       "args": [
         "run", "-i", "--rm",
         "-e", "SEARXNG_URL",
+        "-e", "AUTHORIZATION_HEADER",
         "-e", "AUTH_USERNAME",
         "-e", "AUTH_PASSWORD",
         "-e", "USER_AGENT",
@@ -190,6 +196,7 @@ docker pull isokoliuk/mcp-searxng:latest
       ],
       "env": {
         "SEARXNG_URL": "YOUR_SEARXNG_INSTANCE_URL",
+        "AUTHORIZATION_HEADER": "Bearer your-token-here",
         "AUTH_USERNAME": "your_username",
         "AUTH_PASSWORD": "your_password",
         "USER_AGENT": "MyBot/1.0",
@@ -202,7 +209,7 @@ docker pull isokoliuk/mcp-searxng:latest
 }
 ```
 
-**Note:** Add only the `-e` flags and env variables you need.
+**Note:** Add only the `-e` flags and env variables you need. If both `AUTHORIZATION_HEADER` and Basic Auth are set, `AUTHORIZATION_HEADER` takes priority.
 
 </details>
 
@@ -226,6 +233,7 @@ services:
     environment:
       - SEARXNG_URL=YOUR_SEARXNG_INSTANCE_URL
       # Add any optional variables as needed:
+      # - AUTHORIZATION_HEADER=Bearer your-token-here
       # - AUTH_USERNAME=your_username
       # - AUTH_PASSWORD=your_password
       # - USER_AGENT=MyBot/1.0

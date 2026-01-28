@@ -10,7 +10,8 @@ export function createConfigResource() {
     },
     environment: {
       searxngUrl: process.env.SEARXNG_URL || "(not configured)",
-      hasAuth: !!(process.env.AUTH_USERNAME && process.env.AUTH_PASSWORD),
+      hasAuthorizationHeader: !!process.env.AUTHORIZATION_HEADER,
+      hasBasicAuth: !!(process.env.AUTH_USERNAME && process.env.AUTH_PASSWORD),
       hasProxy: !!(process.env.HTTP_PROXY || process.env.HTTPS_PROXY || process.env.http_proxy || process.env.https_proxy),
       hasNoProxy: !!(process.env.NO_PROXY || process.env.no_proxy),
       nodeVersion: process.version,
@@ -57,7 +58,8 @@ Reads and converts web page content to Markdown format.
 - \`SEARXNG_URL\`: URL of your SearXNG instance (e.g., http://localhost:8080)
 
 ### Optional Environment Variables
-- \`AUTH_USERNAME\` & \`AUTH_PASSWORD\`: Basic authentication for SearXNG
+- \`AUTHORIZATION_HEADER\`: Full Authorization header value (e.g., "Bearer token123", "Token abc")
+- \`AUTH_USERNAME\` & \`AUTH_PASSWORD\`: Basic authentication for SearXNG (used if AUTHORIZATION_HEADER is not set)
 - \`HTTP_PROXY\` / \`HTTPS_PROXY\`: Proxy server configuration
 - \`NO_PROXY\` / \`no_proxy\`: Comma-separated list of hosts to bypass proxy
 - \`MCP_HTTP_PORT\`: Enable HTTP transport on specified port

@@ -84,11 +84,17 @@ export async function performWebSearch(
     (requestOptions as any).dispatcher = proxyAgent;
   }
 
-  // Add basic authentication if credentials are provided
+  // Add authorization header - AUTHORIZATION_HEADER takes priority over Basic Auth
+  const authorizationHeader = process.env.AUTHORIZATION_HEADER;
   const username = process.env.AUTH_USERNAME;
   const password = process.env.AUTH_PASSWORD;
 
-  if (username && password) {
+  if (authorizationHeader) {
+    requestOptions.headers = {
+      ...requestOptions.headers,
+      'Authorization': authorizationHeader
+    };
+  } else if (username && password) {
     const base64Auth = Buffer.from(`${username}:${password}`).toString('base64');
     requestOptions.headers = {
       ...requestOptions.headers,
